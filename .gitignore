@@ -1,2 +1,6 @@
 # folder artifact
 .DS_Store
+
+# AI files
+AGENTS.md
+CLAUDE.md

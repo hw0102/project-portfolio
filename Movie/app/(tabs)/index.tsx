@@ -8,7 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import SearchBar from "../components/searchBar";
+import SearchBar from "@/components/searchBar";
 import { useFetch } from "@/api/useFetch";
 import { fetchAllMovies } from "@/api/api";
 import { Link } from "expo-router";
@@ -59,23 +59,18 @@ const MoviesView = () => {
 
 const MovieCardView = ({ movie }: { movie: Movie }) => {
   return (
-    <View>
-      {/*<Text className="text-white">{movie?.title ?? "hi"}</Text>*/}
-      <Link href={`/movies/${movie.id}`} asChild>
-        <TouchableOpacity>
-          <Image
-            source={{
-              uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-            }}
-            className="w-full h-52 rounded-lg"
-            resizeMode="cover"
-          />
-          <Text className="text-sm font-bold text-white mt-2">
-            {movie.title}
-          </Text>
-        </TouchableOpacity>
-      </Link>
-    </View>
+    <Link href={`/movies/${movie.id}`} asChild>
+      <TouchableOpacity className="w-[30%]">
+        <Image
+          source={{
+            uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+          }}
+          className="w-full h-52 rounded-lg"
+          resizeMode="cover"
+        />
+        <Text className="text-sm font-bold text-white mt-2">{movie.title}</Text>
+      </TouchableOpacity>
+    </Link>
   );
 };
 

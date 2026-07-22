@@ -1,6 +1,6 @@
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import SearchBar from "../components/searchBar";
 
 export default function Index() {
@@ -13,6 +13,7 @@ export default function Index() {
         contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
       >
         <Image source={icons.logo} className="size-12 mt-20 mb-5 mx-auto" />
+        
         <View className="mt-5">
           <SearchBar />
         </View>

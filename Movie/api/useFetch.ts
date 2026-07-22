@@ -1,27 +1,33 @@
 import { getErrorMessage } from "@/utils/getErrorMessage";
+import { useDebounced } from "@/utils/useDebounced";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { fetchAllMovies, fetchMoviesById } from "./api";
 
-export const useFetch = <T>(
-  fetchFunction: () => Promise<T>,
-  autofetch = true,
-) => {
-  const [data, setData] = useState<T | null>(null);
+export const useFetch = (searchTerm: string = "", autofetch = true) => {
+  const debouncedSearchTerm = useDebounced({ value: searchTerm, delay: 500 });
+  const [data, setData] = useState<null>(null);
   const [error, setError] = useState<Error | null>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const isMounted = useRef(false);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setData(null);
     setError(null);
     setIsLoading(false);
-  };
+  }, []);
 
   const fetchData = useCallback(async () => {
     try {
       reset();
       setIsLoading(true);
-      const result = await fetchFunction();
-      if (isMounted.current) setData(result);
+      // fetch all if there's no searchTerm
+      if (debouncedSearchTerm.trim()) {
+        const result = await fetchMoviesById({ query: debouncedSearchTerm });
+        if (isMounted.current) setData(result);
+      } else {
+        const result = await fetchAllMovies();
+        if (isMounted.current) setData(result);
+      }
     } catch (error) {
       if (isMounted.current) {
         const unwrappedError = getErrorMessage(error);
@@ -30,7 +36,7 @@ export const useFetch = <T>(
     } finally {
       if (isMounted.current) setIsLoading(false);
     }
-  }, [fetchFunction]);
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     isMounted.current = true;
@@ -43,5 +49,12 @@ export const useFetch = <T>(
     };
   }, [autofetch, fetchData]);
 
-  return { data, error, isLoading, refetch: fetchData, reset };
+  return {
+    data,
+    error,
+    isLoading,
+    refetch: fetchData,
+    reset,
+    debouncedSearchTerm,
+  };
 };

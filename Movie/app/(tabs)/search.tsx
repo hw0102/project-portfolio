@@ -1,12 +1,24 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Image, FlatList } from "react-native";
+import React, { useState } from "react";
+import { images } from "@/constants/images";
+import { icons } from "@/constants/icons";
+import { MoviesView } from "@/components/MoviesView";
 
 const Search = () => {
-  return (
-    <View>
-      <Text>Search</Text>
-    </View>
-  )
-}
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-export default Search
+  return (
+    <View className="flex-1">
+      <Image source={images.bg} className="absolute top-0 w-full" />
+      <MoviesView
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        showLogo={true}
+        showSearchBar={true}
+        autofetch={false}
+      />
+    </View>
+  );
+};
+
+export default Search;

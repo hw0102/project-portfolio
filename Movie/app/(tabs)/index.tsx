@@ -44,6 +44,7 @@ const MoviesView = () => {
         paddingRight: 5,
         marginBottom: 10,
       }}
+      contentContainerStyle={{ paddingBottom: 120 }}
       ListHeaderComponent={
         <View className="mt-5 mx-2">
           <Image source={icons.logo} className="size-12 mt-20 mb-5 mx-auto" />

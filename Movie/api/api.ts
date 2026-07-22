@@ -41,6 +41,8 @@ export const fetchAllMovies = async () => {
     const response = await axiosInstance.get(endpoint, {
       params: {
         sort_by: "popularity.desc",
+        include_adult: false,
+        primary_release_year: "2026",
       },
     });
     // see https://developer.themoviedb.org/reference/discover-movie

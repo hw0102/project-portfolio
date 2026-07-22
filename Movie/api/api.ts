@@ -15,6 +15,8 @@ export const axiosInstance = create({
   timeout: 5000,
 });
 
+// perhaps a helper function?
+
 export const fetchMoviesById = async ({ query }: { query: string }) => {
   const endpoint = "/search/movie";
 

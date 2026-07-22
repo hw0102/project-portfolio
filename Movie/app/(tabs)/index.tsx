@@ -34,6 +34,7 @@ const MoviesView = () => {
 
   return (
     <FlatList
+      className="mx-2"
       data={allMovies}
       keyExtractor={(item) => String(item.id)}
       renderItem={({ item }) => <MovieCardView movie={item} />}
@@ -70,6 +71,12 @@ const MovieCardView = ({ movie }: { movie: Movie }) => {
           resizeMode="cover"
         />
         <Text className="text-sm font-bold text-white mt-2">{movie.title}</Text>
+        <View className="flex-row justify-start gap-x-2">
+          <Image source={icons.star} className="size-4" />
+          <Text className="text-white font-normal">
+            {(movie.vote_average / 2).toFixed(1)}
+          </Text>
+        </View>
       </TouchableOpacity>
     </Link>
   );
@@ -77,7 +84,7 @@ const MovieCardView = ({ movie }: { movie: Movie }) => {
 
 export default function Index() {
   return (
-    <View className="flex-1 mx-2">
+    <View className="flex-1">
       <Image source={images.bg} className="absolute top-0 w-full" />
       {/*<ScrollView
         className="flex-1"

@@ -108,7 +108,7 @@ export const MoviesView = ({
             </View>
           )}
 
-          {!isLoading && !moviesError && (
+          {!isLoading && !moviesError && !showSearchBar && (
             <Text className="text-lg text-white font-bold mt-5 mb-3">
               Latest Movies
             </Text>
@@ -124,7 +124,14 @@ export const MoviesView = ({
           />
         ) : moviesError ? (
           <Text className="text-black">Error: {moviesError?.message}</Text>
-        ) : null
+        ) : (
+          <View className="mt-10 px-5">
+            <Text className="text-center text-gray-500">
+              {" "}
+              {searchTerm.trim() ? "No Movies Found" : "Search for a Movie"}
+            </Text>
+          </View>
+        )
       }
     />
   );

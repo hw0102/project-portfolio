@@ -12,6 +12,7 @@ import { useFetch } from "@/api/useFetch";
 import { Link } from "expo-router";
 import SearchBar from "./searchBar";
 import { useEffect } from "react";
+import { updateSearchCount } from "@/api/appwrite";
 
 const MovieCardView = ({ movie }: { movie: Movie }) => {
   return (
@@ -68,7 +69,11 @@ export const MoviesView = ({
   useEffect(() => {
     const func = async () => {
       if (debouncedSearchTerm.trim()) {
-        await refetch();
+        const results = await refetch();
+        // this should be in api call instead of on front end. move this to api.
+        if (results && results.length > 0) {
+          await updateSearchCount(debouncedSearchTerm.trim(), results[0]);
+        }
       } else {
         reset();
       }

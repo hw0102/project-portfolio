@@ -7,6 +7,10 @@ import { MoviesView } from "@/components/MoviesView";
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
+  // useEffect(() => {
+  //   updateSearchCount();
+  // },[])
+
   return (
     <View className="flex-1">
       <Image source={images.bg} className="absolute top-0 w-full" />

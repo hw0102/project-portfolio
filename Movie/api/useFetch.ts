@@ -5,7 +5,7 @@ import { fetchAllMovies, fetchMoviesById } from "./api";
 
 export const useFetch = (searchTerm: string = "", autofetch = true) => {
   const debouncedSearchTerm = useDebounced({ value: searchTerm, delay: 500 });
-  const [data, setData] = useState<null>(null);
+  const [data, setData] = useState<Movie[] | null>(null);
   const [error, setError] = useState<Error | null>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const isMounted = useRef(false);
@@ -21,18 +21,17 @@ export const useFetch = (searchTerm: string = "", autofetch = true) => {
       reset();
       setIsLoading(true);
       // fetch all if there's no searchTerm
-      if (debouncedSearchTerm.trim()) {
-        const result = await fetchMoviesById({ query: debouncedSearchTerm });
-        if (isMounted.current) setData(result);
-      } else {
-        const result = await fetchAllMovies();
-        if (isMounted.current) setData(result);
-      }
+      const result = debouncedSearchTerm.trim()
+        ? await fetchMoviesById({ query: debouncedSearchTerm })
+        : await fetchAllMovies();
+      if (isMounted.current) setData(result);
+      return result;
     } catch (error) {
       if (isMounted.current) {
         const unwrappedError = getErrorMessage(error);
         setError(Error(`Error: ${unwrappedError}`));
       }
+      return null;
     } finally {
       if (isMounted.current) setIsLoading(false);
     }

@@ -11,8 +11,8 @@ import {
 import { useFetch } from "@/api/useFetch";
 import { Link } from "expo-router";
 import SearchBar from "./searchBar";
-import { useEffect } from "react";
-import { updateSearchCount } from "@/api/appwrite";
+import { useEffect, useState } from "react";
+import { getTrendingMovies, updateSearchCount } from "@/api/appwrite";
 
 const MovieCardView = ({ movie }: { movie: Movie }) => {
   return (
@@ -50,12 +50,14 @@ export const MoviesView = ({
   setSearchTerm = () => print(),
   showLogo = true,
   showSearchBar = false,
+  showTrendingMovies = false,
 }: {
   autofetch?: boolean;
   searchTerm?: string;
   setSearchTerm?: (val: string) => void;
   showLogo?: boolean;
   showSearchBar?: boolean;
+  showTrendingMovies?: boolean;
 }) => {
   const {
     data: allMovies,
@@ -65,6 +67,20 @@ export const MoviesView = ({
     reset,
     debouncedSearchTerm,
   } = useFetch(searchTerm, autofetch);
+
+  const [trendingMovies, setTrendingMovies] = useState<TrendingMovie[]>([]);
+
+  // fetch trending movies on load
+  useEffect(() => {
+    const func = async () => {
+      const results = await getTrendingMovies();
+      const uniqueByMovieId = Array.from(
+        new Map(results.map((movie) => [movie.movie_id, movie])).values(),
+      );
+      setTrendingMovies(uniqueByMovieId);
+    };
+    func();
+  }, []);
 
   useEffect(() => {
     const func = async () => {
@@ -110,6 +126,30 @@ export const MoviesView = ({
                 {" "}
                 Searching for <Text className="text-accent">{searchTerm}</Text>
               </Text>
+            </View>
+          )}
+
+          {showTrendingMovies && (
+            <View>
+              <Text className="text-xl text-white font-bold mt-10">
+                Trending Movies
+              </Text>
+
+              <FlatList
+                data={trendingMovies ?? []}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                ItemSeparatorComponent={() => <View className="w-4" />}
+                renderItem={({ item }) => {
+                  return <Text className="text-white">{item.movie_title}</Text>;
+                }}
+                keyExtractor={(item) => item.movie_id}
+              />
+              {/*{trendingMovies.map((item) => (
+                <Text key={item.movie_id} className="text-white">
+                  {item.movie_title}
+                </Text>
+              ))}*/}
             </View>
           )}
 

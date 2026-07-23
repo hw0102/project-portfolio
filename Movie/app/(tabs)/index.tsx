@@ -1,5 +1,5 @@
 import { images } from "@/constants/images";
-import { Image, View } from "react-native";
+import { Image, View, Text } from "react-native";
 // import SearchBar from "@/components/searchBar";
 import { fetchAllMovies } from "@/api/api";
 import { MoviesView } from "@/components/MoviesView";
@@ -13,7 +13,8 @@ export default function Index() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
       >*/}
-      <MoviesView />
+      {/*<Text className="text-white font-bold"> Trending Movies </Text>*/}
+      <MoviesView showTrendingMovies={true} />
       {/*</ScrollView>*/}
     </View>
   );

@@ -13,6 +13,7 @@ import { Link } from "expo-router";
 import SearchBar from "./searchBar";
 import { useEffect, useState } from "react";
 import { getTrendingMovies, updateSearchCount } from "@/api/appwrite";
+import TrendingCard from "./TrendingCard";
 
 const MovieCardView = ({ movie }: { movie: Movie }) => {
   return (
@@ -131,7 +132,7 @@ export const MoviesView = ({
 
           {showTrendingMovies && (
             <View>
-              <Text className="text-xl text-white font-bold mt-10">
+              <Text className="text-xl text-white font-bold mt-10 mb-5">
                 Trending Movies
               </Text>
 
@@ -140,8 +141,8 @@ export const MoviesView = ({
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 ItemSeparatorComponent={() => <View className="w-4" />}
-                renderItem={({ item }) => {
-                  return <Text className="text-white">{item.movie_title}</Text>;
+                renderItem={({ item, index }) => {
+                  return <TrendingCard movie={item} index={index} />;
                 }}
                 keyExtractor={(item) => item.movie_id}
               />

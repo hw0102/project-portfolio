@@ -15,7 +15,21 @@ export const axiosInstance = create({
   timeout: 5000,
 });
 
-// perhaps a helper function?
+export const fetchMovieDetails = async ({
+  movieId,
+}: {
+  movieId: string;
+}): Promise<MovieDetails> => {
+  const endpoint = `/movie/${movieId}`;
+  try {
+    const response = await axiosInstance.get<MovieDetails>(endpoint);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 export const fetchMoviesById = async ({ query }: { query: string }) => {
   const endpoint = "/search/movie";

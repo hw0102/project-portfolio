@@ -9,9 +9,10 @@ import Swiper from "react-native-swiper";
 const Welcome = () => {
   const swiperRef = useRef<Swiper>(null);
   const [index, setIndex] = useState<number>(0);
+  const isOnLastSlide: boolean = index === onBoardingArray.length - 1;
 
   return (
-    <SafeAreaView className="flex-1 relative">
+    <SafeAreaView className="flex-1 relative items-center">
       <TouchableOpacity
         className="absolute right-10 top-14"
         onPress={() => router.push("/sign-up")}

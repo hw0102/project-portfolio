@@ -1,3 +1,4 @@
+import { CustomButton } from "@/components/CustomButton";
 import { onBoardingArray } from "@/constants";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
@@ -44,6 +45,16 @@ const Welcome = () => {
           </View>
         ))}
       </Swiper>
+      <View className="w-full px-3">
+        <CustomButton
+          title={isOnLastSlide ? "Sign Up" : "Next"}
+          onPress={() =>
+            isOnLastSlide
+              ? router.push("/sign-up")
+              : swiperRef.current?.scrollBy(1)
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 };

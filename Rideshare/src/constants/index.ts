@@ -16,14 +16,14 @@ export const onBoardingArray: OnboardingProps[] = [
   },
   {
     id: 2,
-    title: "Title 2",
-    description: "Description 2",
+    title: "Professional Drivers and and Well-Maintained Fleet",
+    description: "Always in the know throughout your journey.",
     image: require("../../assets/images/onboarding2.png"),
   },
   {
     id: 3,
-    title: "Title 3",
-    description: "Description 3",
+    title: "Book your ride today!",
+    description: "Witness effortlessness unfold.",
     image: require("../../assets/images/onboarding3.png"),
   },
 ];

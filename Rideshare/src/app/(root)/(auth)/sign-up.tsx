@@ -1,6 +1,7 @@
 import { CustomButton } from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import { icons, images } from "@/constants";
+import { Link } from "expo-router";
 import { useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 
@@ -64,6 +65,16 @@ const SignUp = () => {
 
       <View className="px-3 mt-5">
         <CustomButton onPress={submitForm} title="Sign up" />
+      </View>
+
+      {/* OAuth */}
+      <View className="mt-10">
+        <Link href="/sign-in">
+          <Text className="text-lg text-center text-general-200">
+            Already have another account?{" "}
+            <Text className="text-primary-500"> Log in.</Text>{" "}
+          </Text>
+        </Link>
       </View>
     </ScrollView>
   );

@@ -89,7 +89,7 @@ export const onBoardingArray: OnboardingProps[] = [
   },
   {
     id: 2,
-    title: "Professional Drivers and and Well-Maintained Fleet",
+    title: "Friendly Driver Every Trip.",
     description: "Always in the know throughout your journey.",
     image: require("../../assets/images/onboarding2.png"),
   },

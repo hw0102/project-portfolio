@@ -20,14 +20,16 @@ const CustomButton = ({
     //<View>
     <TouchableOpacity
       onPress={onPress}
-      className=" bg-primary-500 rounded-full py-2"
+      className=" bg-primary-500 rounded-full py-3"
       {...props}
     >
-      {IconLeft && <IconLeft />}
-      <Text className="text-lg font-bold text-white text-center">
-        {" "}
-        {title}{" "}
-      </Text>
+      <View className="flex-row items-center mx-auto">
+        {IconLeft && <IconLeft />}
+        <Text className="text-lg font-bold text-white text-center">
+          {" "}
+          {title}{" "}
+        </Text>
+      </View>
       {IconRight && <IconRight />}
     </TouchableOpacity>
     // </View>

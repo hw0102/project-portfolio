@@ -34,6 +34,8 @@ const InputField = ({ secureTextEntry = false, ...props }: InputFieldProps) => {
               className="flex-1 font-JakartaSemiBold"
               secureTextEntry={secureTextEntry}
               placeholder={props.placeholder}
+              value={props.value}
+              onChangeText={props.onChangeText}
             />
           </View>
         </View>

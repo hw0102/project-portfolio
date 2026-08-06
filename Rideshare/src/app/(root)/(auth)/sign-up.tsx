@@ -222,7 +222,10 @@ const SignUp = () => {
             <View className="mt-5">
               <CustomButton
                 title="Proceed"
-                onPress={() => router.replace("/home")}
+                onPress={() => {
+                  setShowSuccessModal(false);
+                  router.replace("/home");
+                }}
               />
             </View>
           </View>

@@ -110,6 +110,7 @@ const SignIn = () => {
       contentContainerClassName="grow pb-[30px]"
       // contentContainerStyle={{ paddingBottom: 30 }}
       className="bg-white"
+      keyboardDismissMode="interactive"
     >
       <Image
         source={images.signUpCar}

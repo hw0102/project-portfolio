@@ -15,7 +15,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useSignUp, useAuth } from "@clerk/expo";
+import { useSignUp } from "@clerk/expo";
 import Modal from "react-native-modal";
 
 const SignUp = () => {
@@ -25,9 +25,9 @@ const SignUp = () => {
   // mock for dev purposes
   //const [showModal, setShowModal] = useState(true);
   const [verificationError, setVerificationError] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   // mock for dev purposes
   const [code, setCode] = useState("");
-  const { isSignedIn } = useAuth();
 
   const [form, setForm] = useState<SignUpForm>({
     name: "",
@@ -55,7 +55,8 @@ const SignUp = () => {
     }
     // redirect to home page
     //if (isSignedIn) {
-    router.replace("/home");
+    //router.replace("/home");
+    setIsVerifying(false);
     // TODO: create user in db if they don't already exist
     //}
   };
@@ -103,7 +104,11 @@ const SignUp = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       className="flex-1"
     >
-      <ScrollView contentContainerClassName="grow" className="bg-white">
+      <ScrollView
+        contentContainerClassName="grow"
+        className="bg-white"
+        keyboardDismissMode="interactive"
+      >
         <Image
           source={images.signUpCar}
           className="w-full h-[250px] z-0"
@@ -174,7 +179,10 @@ const SignUp = () => {
         </View>
 
         {/*Verificatio Modal*/}
-        <Modal isVisible={isVerifying}>
+        <Modal
+          isVisible={isVerifying}
+          onModalHide={() => setShowSuccessModal(true)}
+        >
           <View className="bg-white rounded-xl min-h-[300px] p-8">
             <Text className="text-2xl font-JakartaBold">Verification</Text>
             <Text className="text-base font-Jakarta mb-10">{`We've sent a code to ${form.email || "<email here>"}`}</Text>
@@ -201,6 +209,21 @@ const SignUp = () => {
             )}
             <View className="mt-5">
               <CustomButton title="Verify" onPress={handleVerify} />
+            </View>
+          </View>
+        </Modal>
+        {/* Success Modal */}
+        <Modal isVisible={showSuccessModal}>
+          <View className="bg-white rounded-xl min-h-[300px] p-8 gap-5">
+            <Image source={images.check} className="size-[110px] mx-auto" />
+            <Text className="text-2xl font-JakartaBold text-center">
+              Verification Success!
+            </Text>
+            <View className="mt-5">
+              <CustomButton
+                title="Proceed"
+                onPress={() => router.replace("/home")}
+              />
             </View>
           </View>
         </Modal>

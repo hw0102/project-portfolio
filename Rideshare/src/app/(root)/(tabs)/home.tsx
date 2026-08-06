@@ -26,6 +26,7 @@ const Home = () => {
     <SafeAreaView className="grow items-center justify-center">
       <Text> Home </Text>
       <Text> Welcome, {user.firstName}.</Text>
+      <Text> {user.emailAddresses[0].emailAddress ?? "<email address>"} </Text>
       <Text>You were last seen on {user.lastSignInAt?.toDateString()}</Text>
       <TouchableOpacity
         onPress={handleSignOut}

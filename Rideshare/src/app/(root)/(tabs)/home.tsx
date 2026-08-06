@@ -1,11 +1,11 @@
 import { Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useClerk } from "@clerk/expo";
+import { useClerk, useUser } from "@clerk/expo";
 import { router } from "expo-router";
 
 const Home = () => {
   const { signOut } = useClerk();
-
+  const { user, isLoaded, isSignedIn } = useUser();
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -18,9 +18,15 @@ const Home = () => {
     }
   };
 
+  if (!isLoaded || !isSignedIn || !user) {
+    return null;
+  }
+
   return (
     <SafeAreaView className="grow items-center justify-center">
       <Text> Home </Text>
+      <Text> Welcome, {user.firstName}.</Text>
+      <Text>You were last seen on {user.lastSignInAt?.toDateString()}</Text>
       <TouchableOpacity
         onPress={handleSignOut}
         className="bg-slate-400 rounded-full mx-auto p-3"

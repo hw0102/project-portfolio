@@ -1,5 +1,4 @@
 import {
-  KeyboardAvoidingView,
   TouchableNativeFeedback,
   View,
   Text,
@@ -7,7 +6,6 @@ import {
   Keyboard,
   Image,
   TextInput,
-  Platform,
 } from "react-native";
 
 interface InputFieldProps {
@@ -22,25 +20,21 @@ interface InputFieldProps {
 
 const InputField = ({ secureTextEntry = false, ...props }: InputFieldProps) => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-        <View className="gap-2">
-          <Text className={props.labelStyle}>{props.label}</Text>
-          <View className="flex-row items-center border border-neutral-100 focus:border-primary-500 rounded-full p-4 gap-2">
-            {props.icon && <Image source={props.icon} className="size-6" />}
-            <TextInput
-              className="flex-1 font-JakartaSemiBold"
-              secureTextEntry={secureTextEntry}
-              placeholder={props.placeholder}
-              value={props.value}
-              onChangeText={props.onChangeText}
-            />
-          </View>
+    <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+      <View className="gap-2">
+        <Text className={props.labelStyle}>{props.label}</Text>
+        <View className="flex-row items-center border border-neutral-100 focus:border-primary-500 rounded-full p-4 gap-2">
+          {props.icon && <Image source={props.icon} className="size-6" />}
+          <TextInput
+            className="flex-1 font-JakartaSemiBold"
+            secureTextEntry={secureTextEntry}
+            placeholder={props.placeholder}
+            value={props.value}
+            onChangeText={props.onChangeText}
+          />
         </View>
-      </TouchableNativeFeedback>
-    </KeyboardAvoidingView>
+      </View>
+    </TouchableNativeFeedback>
   );
 };
 

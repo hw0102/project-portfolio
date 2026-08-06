@@ -22,7 +22,7 @@ const SignIn = () => {
       password: form.password,
     });
     if (error) {
-      console.error(JSON.stringify(error, null, 2));
+      //console.error(JSON.stringify(error, null, 2)); - handled with errors directly
       return;
     }
 
@@ -145,6 +145,14 @@ const SignIn = () => {
           }
         />
       </View>
+
+      {errors && (
+        <View className="mx-3">
+          <Text className="text-red-400">
+            {errors.fields.password?.message}
+          </Text>
+        </View>
+      )}
 
       <View className="px-3 mt-5">
         <CustomButton onPress={handleSubmit} title="Sign In" />

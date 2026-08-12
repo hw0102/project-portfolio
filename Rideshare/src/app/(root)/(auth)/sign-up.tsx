@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import { useSignUp } from "@clerk/expo";
 import Modal from "react-native-modal";
+import { fetchAPI } from "@/utils/fetch";
 
 const SignUp = () => {
   const { signUp } = useSignUp();
@@ -57,7 +58,16 @@ const SignUp = () => {
     //if (isSignedIn) {
     //router.replace("/home");
     setIsVerifying(false);
+
     // TODO: create user in db if they don't already exist
+    await fetchAPI("/users", {
+      method: "POST",
+      body: JSON.stringify({
+        name: form.name,
+        email: form.email,
+        clerkId: signUp.createdUserId,
+      }),
+    });
     //}
   };
 

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-const fetchAPI = async (url: string, options?: RequestInit) => {
+export const fetchAPI = async (url: string, options?: RequestInit) => {
   try {
     const response = await fetch(url, options);
     const body = await response.json();

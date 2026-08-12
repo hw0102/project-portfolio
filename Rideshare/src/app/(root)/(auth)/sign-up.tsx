@@ -188,7 +188,7 @@ const SignUp = () => {
           </Link>
         </View>
 
-        {/*Verificatio Modal*/}
+        {/*Verification Modal*/}
         <Modal
           isVisible={isVerifying}
           onModalHide={() => setShowSuccessModal(true)}

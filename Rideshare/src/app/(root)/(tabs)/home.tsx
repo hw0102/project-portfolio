@@ -1,8 +1,19 @@
-import { FlatList, Text, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useClerk, useUser } from "@clerk/expo";
 import { router } from "expo-router";
 import { RideCard } from "@/components/RideCard";
+import { icons, images } from "@/constants";
+import Modal from "react-native-modal";
+import { useState } from "react";
+import { CustomButton } from "@/components/CustomButton";
 
 const recentRides = [
   {
@@ -114,6 +125,7 @@ const recentRides = [
 const Home = () => {
   const { signOut } = useClerk();
   const { user, isLoaded, isSignedIn } = useUser();
+  const [signOutModalShown, setSignOutModalShown] = useState<boolean>(false);
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -130,13 +142,45 @@ const Home = () => {
     return null;
   }
 
+  const loading: boolean = true;
   return (
     <SafeAreaView className="bg-white grow">
       {/*<Text> Home </Text>*/}
       <FlatList
         data={recentRides.slice(0, 5)}
+        // data={[]}
         renderItem={({ item }) => <RideCard ride={item} />}
-        contentContainerClassName="gap-0"
+        contentContainerClassName="gap-0 pb-10"
+        keyboardShouldPersistTaps="handled"
+        ListHeaderComponentClassName="mx-3"
+        ListHeaderComponent={() => (
+          <View className="flex-row justify-between items-center">
+            <Text className="font-JakartaExtraBold text-xl">
+              {" "}
+              Hello, {user.firstName || user.emailAddresses[0].emailAddress}!
+            </Text>
+            <TouchableOpacity onPress={() => setSignOutModalShown(true)}>
+              <Image source={icons.out} className="size-6" />
+            </TouchableOpacity>
+          </View>
+        )}
+        ListEmptyComponent={() => (
+          <View className="items-center justify-center">
+            {loading ? (
+              <ActivityIndicator size="large" />
+            ) : (
+              <>
+                <Image
+                  source={images.noResult}
+                  className="w-40 h-40"
+                  alt="No Recent Rides Found"
+                  resizeMode="contain"
+                />
+                <Text className="text-sm">No Recent Rides Found</Text>
+              </>
+            )}
+          </View>
+        )}
       />
       {/*<Text> Welcome, {user.firstName}.</Text>
       <Text> {user.emailAddresses[0].emailAddress ?? "<email address>"} </Text>
@@ -147,6 +191,31 @@ const Home = () => {
       >
         <Text className="text-white"> Sign Out </Text>
       </TouchableOpacity>*/}
+      <Modal isVisible={signOutModalShown}>
+        <View className="bg-white rounded-xl min-h-[300px] p-8 gap-5">
+          {/*<Image source={images.check} className="size-[110px] mx-auto" />*/}
+          <Text className="text-2xl font-JakartaBold text-center">
+            Confirm Sign out.
+          </Text>
+          <View className="mt-5 flex-row justify-between">
+            <CustomButton
+              title="Cancel"
+              onPress={() => {
+                setSignOutModalShown(false);
+                //router.replace("/home");
+              }}
+            />
+            <CustomButton
+              title="Confirm"
+              onPress={() => {
+                setSignOutModalShown(false);
+                //router.replace("/home");
+                handleSignOut();
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

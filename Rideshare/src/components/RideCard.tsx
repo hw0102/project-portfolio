@@ -6,7 +6,8 @@ import {
   formatDate,
   formatTimeDuration,
 } from "@/utils/utils";
-import { View, Text, Image } from "react-native";
+import { ActivityIndicator, View, Text, Image } from "react-native";
+import { useState } from "react";
 interface RideCardProps {
   ride: Ride;
 }
@@ -48,20 +49,29 @@ const AddressView = (props: AddressViewProps) => (
   </View>
 );
 
-const TripMapsView = (props: TripMapsViewProps) => (
-  <View>
-    {/*<Text>Map</Text>*/}
-    <Image
-      className="w-[80px] h-[90px] rounded-lg"
-      source={{
-        uri: `${getServerUrl()}/static-map?lon=${props.longtitude}&lat=${props.latitude}`,
-      }}
-      onError={(e) =>
-        console.error("Map image failed to load:", e.nativeEvent.error)
-      }
-    />
-  </View>
-);
+const TripMapsView = (props: TripMapsViewProps) => {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <View className="w-[80px] h-[90px]">
+      <Image
+        className="w-[80px] h-[90px] rounded-lg"
+        source={{
+          uri: `${getServerUrl()}/static-map?lon=${props.longtitude}&lat=${props.latitude}`,
+        }}
+        onLoadEnd={() => setLoading(false)}
+        onError={(e) =>
+          console.error("Map image failed to load:", e.nativeEvent.error)
+        }
+      />
+      {loading && (
+        <View className="absolute inset-0 items-center justify-center">
+          <ActivityIndicator size="small" />
+        </View>
+      )}
+    </View>
+  );
+};
 
 const BreakDownView = (props: BreakDownViewProps) => (
   <View className="bg-general-500 rounded-lg p-3 gap-3">

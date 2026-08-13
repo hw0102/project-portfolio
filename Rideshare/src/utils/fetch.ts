@@ -1,4 +1,16 @@
+import Constants from "expo-constants";
 import { useCallback, useEffect, useState } from "react";
+
+// In development, resolve to the actual dev server address (LAN IP, tunnel, etc.)
+// since it changes per network/machine. In production, there's no dev server,
+// so fall back to the deployed origin.
+export const getServerUrl = () => {
+  const hostUri = Constants.expoConfig?.hostUri;
+  if (hostUri) {
+    return `http://${hostUri}`;
+  }
+  return process.env.EXPO_PUBLIC_SERVER_URL;
+};
 
 export const fetchAPI = async (url: string, options?: RequestInit) => {
   try {

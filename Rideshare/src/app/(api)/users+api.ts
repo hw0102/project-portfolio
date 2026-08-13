@@ -1,4 +1,5 @@
 // Works in Node.js, Next.js, serverless, and edge runtimes
+import { User } from "@/types/user";
 import { neon } from "@neondatabase/serverless";
 import { z } from "zod";
 
@@ -11,11 +12,11 @@ if (!db_url) {
 const sql = neon(db_url);
 
 export const POST = async (request: Request) => {
-  const User = z.object({
-    name: z.string(),
-    email: z.string(),
-    clerkId: z.string(),
-  });
+  // const User = z.object({
+  //   name: z.string(),
+  //   email: z.string(),
+  //   clerkId: z.string(),
+  // });
 
   const result = User.safeParse(await request.json());
 

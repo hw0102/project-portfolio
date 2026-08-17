@@ -1,3 +1,15 @@
+import clsx, { type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+/**
+ * const buttonClass = cn(
+   'bg-blue-500 text-px px-4 py-2',
+   { 'bg-red-500': isError },
+   className
+ );
+ */
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
+
 export const formatDate = (date: string | Date): string => {
   const parsedDate =
     typeof date === "string" ? new Date(date.replace(" ", "T")) : date;
